@@ -99,6 +99,34 @@
   </div>
 
 <script>
+
+  let lastCheckedIndex = null;
+
+  function checkMultipleBoxes(startIndex, endIndex) {
+    checkboxes.forEach((checkbox, index) =>{
+      if (index > startIndex && index < endIndex) {
+        checkbox.checked = true;
+      }
+    });
+  }
+
+  function handleCheck(e, checkbox, index) {
+    if (checkbox.checked) {
+      if (e.shiftKey) {
+        const [startIndex, endIndex] = lastCheckedIndex < index ? [lastCheckedIndex, index] : [index, lastCheckedIndex];
+        checkMultipleBoxes(startIndex, endIndex);
+      }
+      lastCheckedIndex = index;
+    };
+  }
+
+  const checkboxes = document.querySelectorAll('input[type=checkbox');
+  
+  checkboxes.forEach((checkbox, index) => {
+    checkbox.addEventListener('click', (e) => handleCheck(e, checkbox, index));
+  })
+
 </script>
+
 </body>
 </html>
